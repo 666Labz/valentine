@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Valentine Book</title>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:linear-gradient(135deg,#ff9ecf,#ff6fa5,#ff4d88);
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family:'Poppins',sans-serif;
+  color:white;
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:48px;
+  margin-bottom:20px;
+  text-shadow:0 0 10px rgba(255,255,255,0.7),
+              0 0 20px rgba(255,255,255,0.5);
+}
+
+#book{
+  width:600px;
+  height:450px;
+  margin-bottom:20px;
+}
+
+.page{
+  background:white;
+  overflow:hidden;
+  border-radius:8px;
+}
+
+.half{
+  width:200%;
+  height:100%;
+}
+
+.left{
+  transform:translateX(0%);
+}
+
+.right{
+  transform:translateX(-50%);
+}
+
+audio{
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1> Happy Valentine Sayang </h1>
+
+<div id="book">
+
+  <!-- FRONT COVER -->
+  <div class="page">
+    <img src="cover.jpg" style="width:100%;height:100%;object-fit:cover;">
+  </div>
+
+  <!-- SPREAD 1 -->
+  <div class="page">
+    <img src="spread1.jpg" class="half left">
+  </div>
+  <div class="page">
+    <img src="spread1.jpg" class="half right">
+  </div>
+
+  <!-- SPREAD 2 -->
+  <div class="page">
+    <img src="spread2.jpg" class="half left">
+  </div>
+  <div class="page">
+    <img src="spread2.jpg" class="half right">
+  </div>
+
+  <!-- BACK COVER -->
+  <div class="page">
+    <img src="backcover.jpg" style="width:100%;height:100%;object-fit:cover;">
+  </div>
+
+</div>
+
+<audio controls autoplay loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const pageFlip = new St.PageFlip(
+  document.getElementById("book"),
+  {
+    width:300,
+    height:450,
+    size:"fixed",
+    showCover:true,
+    useMouseEvents:true,
+    mobileScrollSupport:true,
+    flippingTime:900,
+    maxShadowOpacity:0.6
+  }
+);
+
+pageFlip.loadFromHTML(document.querySelectorAll("#book .page"));
+</script>
+
+</body>
+</html>

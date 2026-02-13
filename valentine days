@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Valentine Book</title>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:linear-gradient(135deg,#ff9ecf,#ff6fa5,#ff4d88);
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family:'Poppins',sans-serif;
+  color:white;
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:48px;
+  margin-bottom:15px;
+  text-shadow:0 0 10px rgba(255,255,255,0.8);
+  z-index:2;
+}
+
+#book{
+  width:600px;
+  height:450px;
+  margin-bottom:20px;
+  z-index:2;
+}
+
+.page{
+  background:white;
+  overflow:hidden;
+  border-radius:8px;
+}
+
+.half{
+  width:200%;
+  height:100%;
+}
+
+.left{
+  transform:translateX(0%);
+}
+
+.right{
+  transform:translateX(-50%);
+}
+
+audio{
+  z-index:2;
+}
+
+/* HEART STYLE */
+.heart{
+  position:absolute;
+  font-size:20px;
+  color:white;
+  animation:fall linear forwards;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  0%{ transform:translateY(-10vh); }
+  100%{ transform:translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<h1>💖 Happy Valentine Sayang 💖</h1>
+
+<div id="book">
+
+  <div class="page">
+    <img src="cover.jpg" style="width:100%;height:100%;object-fit:cover;">
+  </div>
+
+  <div class="page">
+    <img src="spread1.jpg" class="half left">
+  </div>
+  <div class="page">
+    <img src="spread1.jpg" class="half right">
+  </div>
+
+  <div class="page">
+    <img src="spread2.jpg" class="half left">
+  </div>
+  <div class="page">
+    <img src="spread2.jpg" class="half right">
+  </div>
+
+  <div class="page">
+    <img src="backcover.jpg" style="width:100%;height:100%;object-fit:cover;">
+  </div>
+
+</div>
+
+<audio controls autoplay loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const pageFlip = new St.PageFlip(
+  document.getElementById("book"),
+  {
+    width:300,
+    height:450,
+    size:"fixed",
+    showCover:true,
+    useMouseEvents:true,
+    mobileScrollSupport:true,
+    flippingTime:900,
+    maxShadowOpacity:0.6
+  }
+);
+
+pageFlip.loadFromHTML(document.querySelectorAll("#book .page"));
+
+/* FALLING HEARTS */
+let gyroX = 0;
+
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💗";
+
+  const size = Math.random()*20 + 15;
+  heart.style.fontSize = size + "px";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.animationDuration = (Math.random()*3 + 4) + "s";
+
+  document.body.appendChild(heart);
+
+  let posX = 0;
+
+  function move(){
+    posX += gyroX * 0.05;
+    heart.style.transform = `translate(${posX}px, 0)`;
+    requestAnimationFrame(move);
+  }
+  move();
+
+  setTimeout(()=>{
+    heart.remove();
+  },7000);
+}
+
+setInterval(createHeart,500);
+
+/* GYRO EFFECT */
+if(window.DeviceOrientationEvent){
+  window.addEventListener("deviceorientation", function(event){
+    gyroX = event.gamma || 0;
+  });
+}
+</script>
+
+</body>
+</html>
