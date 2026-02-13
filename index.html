@@ -36,9 +36,10 @@ button{
     font-size:14px;
 }
 
+/* ukuran buku diperkecil */
 #book{
-    width:840px;
-    height:600px;
+    width:720px;
+    height:520px;
 }
 
 /* halaman */
@@ -92,8 +93,8 @@ pages.push("cover-belakang.jpg");
 const book=new St.PageFlip(
     document.getElementById("book"),
     {
-        width:420,
-        height:600,
+        width:360,
+        height:520,
         showCover:true,
         size:"fixed",
         flippingTime:900,
