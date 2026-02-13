@@ -22,19 +22,21 @@ body{
   color:white;
 }
 
+/* TITLE */
 h1{
   font-family:'Great Vibes',cursive;
-  font-size:48px;
+  font-size:44px;
   margin-bottom:15px;
-  text-shadow:0 0 10px rgba(255,255,255,0.8);
-  z-index:2;
+  text-shadow:0 0 15px rgba(255,255,255,0.8);
+  z-index:5;
 }
 
+/* BOOK */
 #book{
-  width:600px;
-  height:450px;
+  width:520px;
+  height:400px;
   margin-bottom:20px;
-  z-index:2;
+  z-index:5;
 }
 
 .page{
@@ -48,30 +50,18 @@ h1{
   height:100%;
 }
 
-.left{
-  transform:translateX(0%);
-}
-
-.right{
-  transform:translateX(-50%);
-}
+.left{ transform:translateX(0%); }
+.right{ transform:translateX(-50%); }
 
 audio{
-  z-index:2;
+  z-index:5;
 }
 
-/* HEART STYLE */
+/* HEART */
 .heart{
   position:absolute;
-  font-size:20px;
-  color:white;
-  animation:fall linear forwards;
   pointer-events:none;
-}
-
-@keyframes fall{
-  0%{ transform:translateY(-10vh); }
-  100%{ transform:translateY(110vh); }
+  z-index:1;
 }
 </style>
 </head>
@@ -82,10 +72,12 @@ audio{
 
 <div id="book">
 
+  <!-- FRONT COVER -->
   <div class="page">
     <img src="cover.jpg" style="width:100%;height:100%;object-fit:cover;">
   </div>
 
+  <!-- SPREAD 1 -->
   <div class="page">
     <img src="spread1.jpg" class="half left">
   </div>
@@ -93,6 +85,7 @@ audio{
     <img src="spread1.jpg" class="half right">
   </div>
 
+  <!-- SPREAD 2 -->
   <div class="page">
     <img src="spread2.jpg" class="half left">
   </div>
@@ -100,6 +93,7 @@ audio{
     <img src="spread2.jpg" class="half right">
   </div>
 
+  <!-- BACK COVER -->
   <div class="page">
     <img src="backcover.jpg" style="width:100%;height:100%;object-fit:cover;">
   </div>
@@ -111,11 +105,12 @@ audio{
 </audio>
 
 <script>
+/* BOOK INIT */
 const pageFlip = new St.PageFlip(
   document.getElementById("book"),
   {
-    width:300,
-    height:450,
+    width:260,
+    height:400,
     size:"fixed",
     showCover:true,
     useMouseEvents:true,
@@ -127,7 +122,7 @@ const pageFlip = new St.PageFlip(
 
 pageFlip.loadFromHTML(document.querySelectorAll("#book .page"));
 
-/* FALLING HEARTS */
+/* HEART SYSTEM */
 let gyroX = 0;
 
 function createHeart(){
@@ -135,31 +130,36 @@ function createHeart(){
   heart.className = "heart";
   heart.innerHTML = "💗";
 
-  const size = Math.random()*20 + 15;
+  const size = Math.random()*15 + 15;
   heart.style.fontSize = size + "px";
   heart.style.left = Math.random()*100 + "vw";
-  heart.style.animationDuration = (Math.random()*3 + 4) + "s";
+  heart.style.top = "-50px";
 
   document.body.appendChild(heart);
 
   let posX = 0;
+  let posY = -50;
 
-  function move(){
-    posX += gyroX * 0.05;
-    heart.style.transform = `translate(${posX}px, 0)`;
-    requestAnimationFrame(move);
+  function animate(){
+    posY += 1;               // ke bawah
+    posX += gyroX * 0.05;    // goyang
+
+    heart.style.transform = `translate(${posX}px, ${posY}px)`;
+
+    if(posY < window.innerHeight + 50){
+      requestAnimationFrame(animate);
+    } else {
+      heart.remove();
+    }
   }
-  move();
 
-  setTimeout(()=>{
-    heart.remove();
-  },7000);
+  animate();
 }
 
-setInterval(createHeart,500);
+setInterval(createHeart, 500);
 
-/* GYRO EFFECT */
-if(window.DeviceOrientationEvent){
+/* GYRO */
+if (window.DeviceOrientationEvent) {
   window.addEventListener("deviceorientation", function(event){
     gyroX = event.gamma || 0;
   });
